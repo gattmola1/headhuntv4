@@ -1,0 +1,58 @@
+<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Crosshair lines -->
+  <!-- Top line -->
+  <rect x="240" y="25" width="20" height="90" fill="#1BA1E2"/>
+  <!-- Bottom line -->
+  <rect x="240" y="385" width="20" height="90" fill="#1BA1E2"/>
+  <!-- Left line -->
+  <rect x="25" y="240" width="90" height="20" fill="#1BA1E2"/>
+  <!-- Right line -->
+  <rect x="385" y="240" width="90" height="20" fill="#1BA1E2"/>
+  
+  <!-- Outer circle -->
+  <circle cx="250" cy="250" r="135" stroke="#1BA1E2" stroke-width="20" fill="none"/>
+  
+  <!-- Person at computer (simplified silhouette) -->
+  <!-- Head -->
+  <circle cx="220" cy="230" r="25" fill="#0F3A5F"/>
+  
+  <!-- Body -->
+  <path d="M 195 255 Q 195 270 200 280 L 200 320 L 240 320 L 240 280 Q 245 270 245 255 Z" fill="#1E5A8E"/>
+  
+  <!-- Arm -->
+  <path d="M 240 280 L 280 290 L 285 295 L 245 285 Z" fill="#1E5A8E"/>
+  
+  <!-- Chair back -->
+  <rect x="185" y="260" width="8" height="60" rx="4" fill="#0F3A5F"/>
+  
+  <!-- Chair seat -->
+  <ellipse cx="210" cy="320" rx="30" ry="12" fill="#0F3A5F"/>
+  
+  <!-- Desk -->
+  <rect x="245" y="285" width="80" height="8" rx="2" fill="#0F3A5F"/>
+  
+  <!-- Monitor stand -->
+  <rect x="280" y="293" width="10" height="15" fill="#0F3A5F"/>
+  
+  <!-- Monitor base -->
+  <ellipse cx="285" cy="310" rx="18" ry="6" fill="#0F3A5F"/>
+  
+  <!-- Monitor screen -->
+  <rect x="260" y="245" width="50" height="40" rx="3" fill="#0F3A5F"/>
+  <rect x="265" y="250" width="40" height="30" rx="2" fill="#1BA1E2"/>
+  
+  <!-- Screen details -->
+  <rect x="268" y="253" width="34" height="3" rx="1" fill="#0F3A5F"/>
+  <rect x="268" y="258" width="28" height="2" rx="1" fill="#0F3A5F"/>
+  <rect x="268" y="262" width="30" height="2" rx="1" fill="#0F3A5F"/>
+  <rect x="268" y="266" width="25" height="2" rx="1" fill="#0F3A5F"/>
+  
+  <!-- Keyboard -->
+  <rect x="250" y="295" width="35" height="10" rx="2" fill="#0F3A5F"/>
+  <line x1="252" y1="297" x2="283" y2="297" stroke="#1BA1E2" stroke-width="0.5"/>
+  <line x1="252" y1="300" x2="283" y2="300" stroke="#1BA1E2" stroke-width="0.5"/>
+  <line x1="252" y1="303" x2="283" y2="303" stroke="#1BA1E2" stroke-width="0.5"/>
+  
+  <!-- Mouse -->
+  <ellipse cx="290" cy="300" rx="4" ry="6" fill="#0F3A5F"/>
+</svg>
