@@ -1,4 +1,5 @@
 {
+    "version": 2,
     "cleanUrls": true,
     "rewrites": [
         {
@@ -6,8 +7,13 @@
             "destination": "/api/$1"
         },
         {
-            "source": "/(.*)",
+            "source": "/((?!api/).*)",
             "destination": "/index.html"
         }
-    ]
+    ],
+    "functions": {
+        "api/**/*.js": {
+            "maxDuration": 15
+        }
+    }
 }
