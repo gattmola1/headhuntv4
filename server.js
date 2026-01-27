@@ -7,6 +7,10 @@ import fs from 'fs';
 
 // Load environment variables
 dotenv.config();
+// Vite/Vercel priority: .env.local overrides .env
+if (fs.existsSync('.env.local')) {
+    dotenv.config({ path: '.env.local', override: true });
+}
 
 const app = express();
 const PORT = 3000;

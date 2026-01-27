@@ -1,5 +1,6 @@
 export function checkAdmin(req) {
-    const authHeader = req.headers.get('authorization') || req.headers['authorization'];
+    // req.headers is a plain object in Node/Express/Vercel functions
+    const authHeader = req.headers['authorization'] || req.headers['Authorization'];
     if (!authHeader) return false;
 
     const token = authHeader.split(' ')[1];
