@@ -6,7 +6,10 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    if (!checkAdmin(req)) return res.status(403).json({ error: 'Forbidden' });
+    const isAdmin = checkAdmin(req);
+    console.log(`[API] GET /api/applications - Admin Authenticated: ${isAdmin}`);
+
+    if (!isAdmin) return res.status(403).json({ error: 'Forbidden' });
 
     const { data, error } = await supabase
         .from('applications')
@@ -16,7 +19,12 @@ export default async function handler(req, res) {
     `)
         .order('created_at', { ascending: false });
 
-    if (error) return res.status(500).json({ error: error.message });
+    if (error) {
+        console.error('[API] Supabase Error (applications):', error);
+        return res.status(500).json({ error: error.message });
+    }
+
+    console.log(`[API] Success - Found ${data?.length || 0} applications`);
 
     const formatted = data.map(app => ({
         ...app,
