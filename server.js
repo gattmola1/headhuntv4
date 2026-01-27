@@ -99,28 +99,14 @@ app.all('/api/apply', async (req, res) => {
 });
 // Special handling for resume-link if it's dynamic
 app.all('/api/admin/resume-link/:path', async (req, res) => {
-    // Vercel routes /api/admin/resume-link/[path]
-    // We need to find where this file is. Inspecting api structure previously:
-    // api/admin is a dir. Let's assume api/admin/resume-link.js or similar?
-    // Based on previous list_dir of api/admin (numChildren: 1), it's likely.
     try {
-        // Trying to resolve the likely path.
-        // If the user's file structure uses [path].js inside resume-link folder:
-        // api/admin/resume-link/[path].js 
-        // But let's start with a generic try and debug if needed.
-        // Actually, let's just make it try to import api/admin/resume-link.js if it exists.
-
-        // Check if api/admin/resume-link.js exists
-        if (fs.existsSync(join(__dirname, 'api/admin/resume-link.js'))) {
-            req.query.path = req.params.path;
-            const mod = await import('./api/admin/resume-link.js');
-            return adaptHandler(mod.default)(req, res);
-        }
-
+        req.query.path = req.params.path;
+        const module = await import('./api/admin/resume-link/[path].js');
+        adaptHandler(module.default)(req, res);
     } catch (e) {
-        console.error(e);
+        console.error('Route Error:', e);
+        res.status(404).json({ error: "Endpoint not found in local server map" });
     }
-    res.status(404).json({ error: "Endpoint not found in local server map" });
 });
 
 // Start server
