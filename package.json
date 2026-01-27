@@ -1,7 +1,15 @@
 {
-    "name": "headhunt-v2",
+    "name": "headhunt-v3",
     "private": true,
-    "version": "0.0.0",
+    "version": "1.0.0",
+    "description": "Premium recruitment platform for high-performance software engineering talent.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/gattmola1/headhuntv3.git"
+    },
+    "engines": {
+        "node": ">=20.0.0"
+    },
     "type": "module",
     "scripts": {
         "dev": "vite",
