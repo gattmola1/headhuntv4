@@ -11,10 +11,10 @@ export default async function handler(req, res) {
     const { id } = req.query;
 
     const { error } = await supabase
-        .from('postings')
+        .from('collaborators')
         .delete()
         .eq('id', id);
 
     if (error) return res.status(500).json({ error: error.message });
-    return res.status(200).json({ message: "Deleted" });
+    return res.status(200).json({ message: "Collaborator Deleted" });
 }

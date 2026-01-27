@@ -60,13 +60,23 @@ app.all('/api/jobs/:id', async (req, res) => {
 
 // Applications
 app.all('/api/applications', async (req, res) => {
-    const module = await import('./api/applications.js');
+    const module = await import('./api/applications/index.js');
+    adaptHandler(module.default)(req, res);
+});
+app.all('/api/applications/:id', async (req, res) => {
+    req.query.id = req.params.id;
+    const module = await import('./api/applications/[id].js');
     adaptHandler(module.default)(req, res);
 });
 
 // Collaborators
 app.all('/api/collaborators', async (req, res) => {
-    const module = await import('./api/collaborators.js');
+    const module = await import('./api/collaborators/index.js');
+    adaptHandler(module.default)(req, res);
+});
+app.all('/api/collaborators/:id', async (req, res) => {
+    req.query.id = req.params.id;
+    const module = await import('./api/collaborators/[id].js');
     adaptHandler(module.default)(req, res);
 });
 
