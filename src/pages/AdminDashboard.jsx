@@ -21,12 +21,19 @@ const AdminDashboard = () => {
         description: ''
     });
 
+    // State for new features
+    const [recruiters, setRecruiters] = useState([]);
+    const [leads, setLeads] = useState([]);
+    const [showRecruiterModal, setShowRecruiterModal] = useState(false);
+
     useEffect(() => {
         fetchJobs();
         if (activeTab === 'applications') fetchApplications();
         if (activeTab === 'collaborators') fetchCollaborators();
         if (activeTab === 'ideas') fetchIdeas();
         if (activeTab === 'prospects') fetchProspects();
+        if (activeTab === 'recruiters') fetchRecruiters();
+        if (activeTab === 'leads') fetchLeads();
     }, [activeTab]);
 
     const fetchJobs = async () => {
@@ -75,6 +82,24 @@ const AdminDashboard = () => {
         } catch (err) { console.error(err); }
     };
 
+    const fetchRecruiters = async () => {
+        try {
+            const res = await fetch(`${API_URL}/api/recruiters`);
+            const data = await res.json();
+            setRecruiters(data.recruiters || []);
+        } catch (err) { console.error(err); }
+    };
+
+    const fetchLeads = async () => {
+        try {
+            const res = await fetch(`${API_URL}/api/leads`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            setLeads(data.leads || []);
+        } catch (err) { console.error(err); }
+    };
+
     const handleDeleteJob = async (id) => {
         if (!confirm('Are you sure?')) return;
         try {
@@ -105,6 +130,17 @@ const AdminDashboard = () => {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             fetchProspects();
+        } catch (err) { console.error(err); }
+    };
+
+    const handleDeleteRecruiter = async (id) => {
+        if (!confirm('Delete this recruiter?')) return;
+        try {
+            await fetch(`${API_URL}/api/recruiters/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            fetchRecruiters();
         } catch (err) { console.error(err); }
     };
 
@@ -142,6 +178,27 @@ const AdminDashboard = () => {
         } catch (err) { console.error(err); }
     };
 
+    const handleCreateRecruiter = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            // highlights is comma separated
+            data.highlights = data.highlights.split(',').map(s => s.trim());
+
+            await fetch(`${API_URL}/api/recruiters`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            });
+            setShowRecruiterModal(false);
+            fetchRecruiters();
+        } catch (err) { console.error(err); }
+    };
+
     return (
         <div className="space-y-8">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-white/10">
@@ -176,6 +233,18 @@ const AdminDashboard = () => {
                         className={`px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all ${activeTab === 'prospects' ? 'bg-white text-black shadow-lg shadow-white/10' : 'text-gray-400 hover:text-white'}`}
                     >
                         <div className="flex items-center gap-2"><Target className="w-3.5 h-3.5" /> Prospects</div>
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('recruiters')}
+                        className={`px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all ${activeTab === 'recruiters' ? 'bg-white text-black shadow-lg shadow-white/10' : 'text-gray-400 hover:text-white'}`}
+                    >
+                        <div className="flex items-center gap-2"><Briefcase className="w-3.5 h-3.5" /> Recruiters</div>
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('leads')}
+                        className={`px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest transition-all ${activeTab === 'leads' ? 'bg-white text-black shadow-lg shadow-white/10' : 'text-gray-400 hover:text-white'}`}
+                    >
+                        <div className="flex items-center gap-2"><MessageCircle className="w-3.5 h-3.5" /> Leads</div>
                     </button>
                 </div>
             </header>
@@ -420,7 +489,103 @@ const AdminDashboard = () => {
                     </div>
                 </div>
             )}
+
+            {activeTab === 'recruiters' && (
+                <div className="space-y-6">
+                    <div className="flex justify-end">
+                        <button
+                            onClick={() => setShowRecruiterModal(true)}
+                            className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 transition-colors"
+                        >
+                            <Plus className="w-4 h-4" /> Add Recruiter
+                        </button>
+                    </div>
+
+                    <div className="grid gap-4">
+                        {recruiters.map(r => (
+                            <div key={r.id} className="p-6 rounded-xl border border-white/10 bg-white/5 flex gap-4 items-center group">
+                                <img src={r.headshot_url || "https://via.placeholder.com/50"} alt={r.name} className="w-16 h-16 rounded-full object-cover" />
+                                <div className="flex-1">
+                                    <h3 className="text-xl font-bold text-white mb-1">{r.name}</h3>
+                                    <p className="text-sm text-gray-400">{r.slug}</p>
+                                    <div className="flex gap-2 mt-2">
+                                        {r.highlights && r.highlights.map((h, i) => (
+                                            <span key={i} className="text-xs bg-white/10 px-2 py-1 rounded text-gray-300">{h}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => handleDeleteRecruiter(r.id)}
+                                    className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded transition-colors"
+                                >
+                                    <Trash2 className="w-5 h-5" />
+                                </button>
+                            </div>
+                        ))}
+                        {recruiters.length === 0 && <p className="text-center text-gray-500">No recruiters found.</p>}
+                    </div>
+                </div>
+            )}
+
+            {activeTab === 'leads' && (
+                <div className="overflow-x-auto rounded-xl border border-white/10">
+                    <table className="w-full text-left text-sm text-gray-400">
+                        <thead className="bg-white/5 text-xs uppercase font-mono text-gray-500">
+                            <tr>
+                                <th className="p-4">Candidate</th>
+                                <th className="p-4">Recruiter</th>
+                                <th className="p-4">Windows</th>
+                                <th className="p-4">Status</th>
+                                <th className="p-4">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                            {leads.map(lead => (
+                                <tr key={lead.id} className="hover:bg-white/5 transition-colors">
+                                    <td className="p-4">
+                                        <div className="font-bold text-white">{lead.candidate_name}</div>
+                                        <div className="text-xs">{lead.candidate_email}</div>
+                                    </td>
+                                    <td className="p-4 text-white">{lead.recruiters?.name || 'Unknown'}</td>
+                                    <td className="p-4">
+                                        <div className="flex flex-wrap gap-1">
+                                            {lead.preferred_windows && lead.preferred_windows.map((w, i) => (
+                                                <span key={i} className="text-[10px] bg-blue-500/20 text-blue-400 border border-blue-500/20 px-1.5 py-0.5 rounded">{w}</span>
+                                            ))}
+                                        </div>
+                                    </td>
+                                    <td className="p-4 font-mono text-xs uppercase">{lead.status}</td>
+                                    <td className="p-4 font-mono text-xs">{new Date(lead.created_at).toLocaleDateString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    {leads.length === 0 && <div className="p-8 text-center text-gray-500">No leads found.</div>}
+                </div>
+            )}
+
+            {showRecruiterModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                    <div className="bg-zinc-950 border border-white/10 p-8 rounded-2xl max-w-md w-full shadow-2xl">
+                        <h2 className="text-xl font-bold mb-6">Add Recruiter</h2>
+                        <form onSubmit={handleCreateRecruiter} className="space-y-4">
+                            <input name="name" placeholder="Full Name" className="w-full bg-black/50 border border-white/10 p-3 rounded-lg text-white" required />
+                            <input name="slug" placeholder="Slug (e.g. matt-gola)" className="w-full bg-black/50 border border-white/10 p-3 rounded-lg text-white" required />
+                            <input name="headshot_url" placeholder="Headshot URL" className="w-full bg-black/50 border border-white/10 p-3 rounded-lg text-white" />
+                            <input name="calendar_id" placeholder="Google Calendar ID" className="w-full bg-black/50 border border-white/10 p-3 rounded-lg text-white" />
+                            <textarea name="bio" placeholder="Professional Bio" className="w-full bg-black/50 border border-white/10 p-3 rounded-lg text-white h-24" />
+                            <input name="highlights" placeholder="Highlights (comma separated)" className="w-full bg-black/50 border border-white/10 p-3 rounded-lg text-white" />
+
+                            <div className="flex gap-2 justify-end pt-4">
+                                <button type="button" onClick={() => setShowRecruiterModal(false)} className="px-4 py-2 text-gray-400 hover:text-white">Cancel</button>
+                                <button type="submit" className="bg-blue-600 px-6 py-2 rounded-lg text-white font-bold">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
+
 export default AdminDashboard;

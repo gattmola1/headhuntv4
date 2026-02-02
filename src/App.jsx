@@ -9,6 +9,8 @@ import Employers from './pages/Employers';
 import Legal from './pages/Legal';
 import Network from './pages/Network';
 import AdminDashboard from './pages/AdminDashboard';
+import Recruiters from './pages/Recruiters';
+import RecruiterProfile from './pages/RecruiterProfile';
 import Login from './pages/Login';
 import RequireAuth from './components/RequireAuth';
 
@@ -47,6 +49,8 @@ function App() {
           <Route path="employers" element={<Employers />} />
           <Route path="legal" element={<Legal />} />
           <Route path="network" element={<Network />} />
+          <Route path="recruiters" element={<Recruiters />} />
+          <Route path="recruiters/:slug" element={<RecruiterProfile />} />
           <Route path="login" element={<Login />} />
           <Route
             path="admin"

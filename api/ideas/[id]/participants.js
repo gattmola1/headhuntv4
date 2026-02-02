@@ -6,6 +6,7 @@ export default async function handler(req, res) {
     }
 
     const { id } = req.query;
+    console.log(`[API] Fetching participants for idea_id: ${id}`);
 
     const { data, error } = await supabase
         .from('collaborators')
@@ -13,6 +14,11 @@ export default async function handler(req, res) {
         .eq('idea_id', id)
         .order('created_at', { ascending: false });
 
-    if (error) return res.status(500).json({ error: error.message });
+    if (error) {
+        console.error('[API] Error fetching participants:', error);
+        return res.status(500).json({ error: error.message });
+    }
+
+    console.log(`[API] Found ${data?.length || 0} participants found for idea_id: ${id}`);
     return res.status(200).json({ participants: data });
 }

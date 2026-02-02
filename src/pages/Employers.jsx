@@ -204,10 +204,14 @@ const Employers = () => {
                                 </button>
                             </div>
                             <div className="pt-2">
-                                <button className="w-full py-4 bg-white text-black rounded-xl font-black text-sm flex items-center justify-center gap-3 hover:bg-gray-200 transition-all active:scale-95 shadow-xl shadow-white/5 uppercase tracking-widest">
+                                <a
+                                    href="/sample_rsa.pdf"
+                                    download
+                                    className="w-full py-4 bg-white text-black rounded-xl font-black text-sm flex items-center justify-center gap-3 hover:bg-gray-200 transition-all active:scale-95 shadow-xl shadow-white/5 uppercase tracking-widest"
+                                >
                                     <Download size={18} />
                                     DOWNLOAD SAMPLE RSA
-                                </button>
+                                </a>
                                 <p className="text-[10px] text-center text-gray-600 mt-4 leading-relaxed uppercase tracking-widest font-mono">
                                     Revenue Share Agreement Template v2.4
                                 </p>

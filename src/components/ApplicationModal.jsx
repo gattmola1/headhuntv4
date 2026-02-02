@@ -30,8 +30,15 @@ const ApplicationModal = ({ job, isOpen, onClose, onSuccess }) => {
 
     const fetchParticipants = async () => {
         try {
-            const res = await fetch(`${API_URL}/api/jobs/${job.id}/participants`);
+            const endpoint = isIdea
+                ? `${API_URL}/api/ideas/${job.id}/participants`
+                : `${API_URL}/api/jobs/${job.id}/participants`;
+
+            console.log('Fetching participants from:', endpoint);
+            const res = await fetch(endpoint);
+            if (!res.ok) throw new Error('Failed to fetch');
             const data = await res.json();
+            console.log('Participants data received:', data);
             setParticipants(data.participants || []);
         } catch (err) {
             console.error("Failed to fetch participants", err);
@@ -165,16 +172,32 @@ const ApplicationModal = ({ job, isOpen, onClose, onSuccess }) => {
                                         <Flame className="w-4 h-4 text-orange-500" />
                                         Current Contributors
                                     </h3>
-                                    <div className="space-y-2 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                                    <div className="max-h-[200px] overflow-y-auto pr-2 custom-scrollbar border border-white/5 rounded-xl bg-white/[0.02]">
                                         {participants.length === 0 ? (
-                                            <p className="text-xs text-gray-500 italic">No one has joined yet. Be the first!</p>
+                                            <div className="p-8 text-center">
+                                                <p className="text-xs text-gray-500 italic">No one has joined yet. Be the first!</p>
+                                            </div>
                                         ) : (
-                                            participants.map((p, i) => (
-                                                <div key={i} className="flex justify-between items-center p-2 rounded-lg bg-white/5 border border-white/5">
-                                                    <span className="text-xs font-bold">{p.full_name}</span>
-                                                    <span className="text-[10px] font-mono text-blue-400">+{p.committed_hours} HRS/WK</span>
-                                                </div>
-                                            ))
+                                            <table className="w-full text-left border-collapse">
+                                                <thead>
+                                                    <tr className="border-b border-white/5 text-[10px] text-gray-400 uppercase tracking-wider font-mono">
+                                                        <th className="p-3 font-medium">Contributor</th>
+                                                        <th className="p-3 font-medium text-right">Hrs/Wk</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="text-xs">
+                                                    {participants.map((p, i) => (
+                                                        <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
+                                                            <td className="p-3 font-bold text-white">
+                                                                {p.full_name}
+                                                            </td>
+                                                            <td className="p-3 text-right font-mono text-blue-400 font-bold">
+                                                                {p.committed_hours}
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
                                         )}
                                     </div>
                                 </div>

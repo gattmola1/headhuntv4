@@ -119,7 +119,7 @@ const LandingPage = () => {
                 <ScrollingBanner items={jobs} type="job" />
             </section>
 
-            {/* 3. Employer & About CTA */}
+            {/* 3. Employer CTA */}
             <section className="max-w-7xl mx-auto px-6 py-20 border-y border-white/5">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6">
@@ -147,6 +147,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
+
 
             {/* 4. The Non-JOB Hero */}
             <section className="min-h-[60vh] flex flex-col items-center justify-center text-center space-y-8 px-6 bg-gradient-to-b from-transparent via-blue-500/[0.03] to-transparent">
@@ -288,14 +289,48 @@ const LandingPage = () => {
                                 </button>
                             </div>
                             <div className="pt-2">
-                                <button className="w-full py-4 bg-white text-black rounded-xl font-black text-sm flex items-center justify-center gap-3 hover:bg-gray-200 transition-all active:scale-95 shadow-xl shadow-white/5 uppercase tracking-widest">
+                                <a
+                                    href="/sample_rsa.pdf"
+                                    download
+                                    className="w-full py-4 bg-white text-black rounded-xl font-black text-sm flex items-center justify-center gap-3 hover:bg-gray-200 transition-all active:scale-95 shadow-xl shadow-white/5 uppercase tracking-widest"
+                                >
                                     <Download size={18} />
                                     DOWNLOAD SAMPLE RSA
-                                </button>
+                                </a>
                                 <p className="text-[10px] text-center text-gray-600 mt-4 leading-relaxed uppercase tracking-widest font-mono">
                                     Revenue Share Agreement Template v2.4
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* 3.5. Recruiters CTA */}
+            <section className="max-w-7xl mx-auto px-6 py-20 border-y border-white/5">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="grid grid-cols-2 gap-4 order-2 md:order-1">
+                        <div className="aspect-square bg-blue-500/10 rounded-2xl border border-blue-500/20 flex items-center justify-center p-8 text-center mt-8">
+                            <p className="text-xs font-mono text-blue-400 tracking-widest uppercase">Win-Win Ethics</p>
+                        </div>
+                        <div className="aspect-square bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center p-8 text-center">
+                            <p className="text-xs font-mono text-gray-500 tracking-widest uppercase">Premium Access</p>
+                        </div>
+                    </div>
+                    <div className="space-y-6 order-1 md:order-2">
+                        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">An exclusive network of excellence.</h2>
+                        <p className="text-gray-400 text-lg leading-relaxed">
+                            Join a premium circle of high-value recruiters.
+                            We bridge connections through transparent, win-win contracts,
+                            ensuring every node in our network thrives on mutual success.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                            <Link to="/recruiters" className="px-8 py-3 bg-white text-black font-bold rounded-xl text-center hover:bg-gray-200 transition-colors">
+                                Join the Network
+                            </Link>
+                            <Link to="/network" className="px-8 py-3 border border-white/10 text-white font-bold rounded-xl text-center hover:bg-white/5 transition-colors">
+                                Partner with Us
+                            </Link>
                         </div>
                     </div>
                 </div>

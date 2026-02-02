@@ -90,6 +90,14 @@ app.all('/api/ideas/:id', async (req, res) => {
     const module = await import('./api/ideas/[id].js');
     adaptHandler(module.default)(req, res);
 });
+app.all('/api/ideas/:id/participants', async (req, res) => {
+    console.log(`[Server] Route matched for participants. Params:`, req.params);
+    // Force recreate req.query to ensure it's writable and includes 'id'
+    req.query = { ...req.query, id: req.params.id };
+    console.log(`[Server] Assigned req.query.id = ${req.query.id}`);
+    const module = await import('./api/ideas/[id]/participants.js');
+    adaptHandler(module.default)(req, res);
+});
 
 // Prospects
 app.all('/api/prospects', async (req, res) => {
@@ -99,6 +107,29 @@ app.all('/api/prospects', async (req, res) => {
 app.all('/api/prospects/:id', async (req, res) => {
     req.query.id = req.params.id;
     const module = await import('./api/prospects/[id].js');
+    adaptHandler(module.default)(req, res);
+});
+
+// Recruiters
+app.all('/api/recruiters', async (req, res) => {
+    const module = await import('./api/recruiters/index.js');
+    adaptHandler(module.default)(req, res);
+});
+app.all('/api/recruiters/:id', async (req, res) => {
+    req.query.id = req.params.id;
+    const module = await import('./api/recruiters/[id].js');
+    adaptHandler(module.default)(req, res);
+});
+app.all('/api/recruiters/slug/:slug', async (req, res) => {
+    // req.query is read-only in some environments, handle slug extraction in handler or via fallback
+    // req.query.slug = req.params.slug;
+    const module = await import('./api/recruiters/slug/[slug].js');
+    adaptHandler(module.default)(req, res);
+});
+
+// Leads
+app.all('/api/leads', async (req, res) => {
+    const module = await import('./api/leads/index.js');
     adaptHandler(module.default)(req, res);
 });
 

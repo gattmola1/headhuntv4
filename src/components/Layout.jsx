@@ -17,6 +17,7 @@ const Layout = ({ children }) => {
                         <Link to="/match" className="hover:text-white transition-colors font-bold text-blue-400 whitespace-nowrap">MATCH</Link>
                         <Link to="/jobs" className="hover:text-white transition-colors whitespace-nowrap">JOBS</Link>
                         <Link to="/network" className="hover:text-white transition-colors whitespace-nowrap">NETWORK</Link>
+                        <Link to="/recruiters" className="hover:text-white transition-colors whitespace-nowrap">RECRUITERS</Link>
                         <Link to="/admin" className="hover:text-white transition-colors whitespace-nowrap">ADMIN</Link>
                     </div>
                 </div>
