@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    if (!checkAdmin(req)) return res.status(403).json({ error: 'Forbidden' });
+    if (!await checkAdmin(req)) return res.status(403).json({ error: 'Forbidden' });
 
     const { id } = req.query;
 

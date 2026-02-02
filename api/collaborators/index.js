@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    const isAdmin = checkAdmin(req);
+    const isAdmin = await checkAdmin(req);
     console.log(`[API] GET /api/collaborators - Admin Authenticated: ${isAdmin}`);
 
     if (!isAdmin) return res.status(403).json({ error: 'Forbidden' });

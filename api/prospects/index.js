@@ -3,7 +3,7 @@ import { checkAdmin } from '../_lib/auth.js';
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-        const isAdmin = checkAdmin(req);
+        const isAdmin = await checkAdmin(req);
         console.log(`[API] GET /api/prospects - Admin Authenticated: ${isAdmin}`);
 
         if (!isAdmin) return res.status(403).json({ error: 'Forbidden' });

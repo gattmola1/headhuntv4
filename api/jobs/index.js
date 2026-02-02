@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'POST') {
-        if (!checkAdmin(req)) return res.status(403).json({ error: 'Forbidden' });
+        if (!await checkAdmin(req)) return res.status(403).json({ error: 'Forbidden' });
 
         const { title, company, location, salary, description } = req.body;
         const { data, error } = await supabase
