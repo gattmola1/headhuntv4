@@ -1,4 +1,4 @@
-import { supabase } from '../../_lib/supabase.js';
+import { supabaseAdmin as supabase } from '../../_lib/supabaseAdmin.js';
 import { checkAdmin } from '../../_lib/auth.js';
 
 export default async function handler(req, res) {

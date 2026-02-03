@@ -1,4 +1,4 @@
-import { supabase } from '../_lib/supabase.js';
+import { getSupabaseClient } from '../_lib/supabase.js';
 import { checkAdmin } from '../_lib/auth.js';
 
 export default async function handler(req, res) {
@@ -7,6 +7,8 @@ export default async function handler(req, res) {
     }
 
     if (!await checkAdmin(req)) return res.status(403).json({ error: 'Forbidden' });
+
+    const supabase = getSupabaseClient(req);
 
     const { id } = req.query;
 

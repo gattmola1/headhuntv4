@@ -1,11 +1,13 @@
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { getSupabaseClient } from '../_lib/supabase.js';
 
 export default async function handler(req, res) {
+    // Public GET is allowed by RLS (anon), but POST requires auth
+    if (req.method === 'POST' && !req.headers.authorization) {
+        return res.status(401).json({ error: 'Unauthorized: Missing token' });
+    }
+
+    const supabase = getSupabaseClient(req);
     if (req.method === 'GET') {
         try {
             const { data, error } = await supabase

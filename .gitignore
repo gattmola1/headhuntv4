@@ -43,3 +43,6 @@ dist-ssr
 .env*.local
 server.out
 debug-db.js
+
+debug-db.js
+test-connection.js

@@ -1,7 +1,8 @@
-import { supabase } from '../_lib/supabase.js';
+import { getSupabaseClient } from '../_lib/supabase.js';
 import { checkAdmin } from '../_lib/auth.js';
 
 export default async function handler(req, res) {
+    const supabase = getSupabaseClient(req);
     if (req.method === 'GET') {
         const { data, error } = await supabase
             .from('postings')

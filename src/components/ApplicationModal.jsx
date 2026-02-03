@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, CheckCircle, ChevronRight, ChevronLeft, Users, Clock, Flame } from 'lucide-react';
 import { API_URL } from '../config';
+import { supabase } from '../supabaseClient';
 
 const ApplicationModal = ({ job, isOpen, onClose, onSuccess }) => {
     const [step, setStep] = useState(1);
@@ -14,6 +15,10 @@ const ApplicationModal = ({ job, isOpen, onClose, onSuccess }) => {
         committed_hours: ''
     });
     const [participants, setParticipants] = useState([]);
+    const [stats, setStats] = useState({
+        hours: job?.total_hours || 0,
+        participants: job?.participants_count || 0
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
@@ -25,21 +30,45 @@ const ApplicationModal = ({ job, isOpen, onClose, onSuccess }) => {
     useEffect(() => {
         if (isOpen && job?.id) {
             fetchParticipants();
+            if (isIdea) fetchStats();
         }
     }, [isOpen, job?.id]);
 
+    const fetchStats = async () => {
+        try {
+            const [hoursRes, countRes] = await Promise.all([
+                supabase.rpc('get_idea_total_hours', { target_idea_id: job.id }),
+                supabase.rpc('get_idea_participant_count', { target_idea_id: job.id })
+            ]);
+
+            if (hoursRes.data !== null && countRes.data !== null) {
+                setStats({
+                    hours: hoursRes.data,
+                    participants: countRes.data
+                });
+            }
+        } catch (err) {
+            console.error("Failed to fetch stats", err);
+        }
+    };
+
     const fetchParticipants = async () => {
         try {
-            const endpoint = isIdea
-                ? `${API_URL}/api/ideas/${job.id}/participants`
-                : `${API_URL}/api/jobs/${job.id}/participants`;
+            if (isIdea) {
+                // Use Safe RPC for Idea Participants (Privacy Enforced)
+                const { data, error } = await supabase
+                    .rpc('get_idea_participants_safe', { target_idea_id: job.id });
 
-            console.log('Fetching participants from:', endpoint);
-            const res = await fetch(endpoint);
-            if (!res.ok) throw new Error('Failed to fetch');
-            const data = await res.json();
-            console.log('Participants data received:', data);
-            setParticipants(data.participants || []);
+                if (error) throw error;
+                setParticipants(data || []);
+            } else {
+                // Regular Jobs API fallback
+                const endpoint = `${API_URL}/api/jobs/${job.id}/participants`;
+                const res = await fetch(endpoint);
+                if (!res.ok) throw new Error('Failed to fetch');
+                const data = await res.json();
+                setParticipants(data.participants || []);
+            }
         } catch (err) {
             console.error("Failed to fetch participants", err);
         }
@@ -156,14 +185,14 @@ const ApplicationModal = ({ job, isOpen, onClose, onSuccess }) => {
                                             <Clock className="w-4 h-4" />
                                             <span className="text-[10px] font-bold uppercase">Total Hours</span>
                                         </div>
-                                        <div className="text-xl font-bold">{job.total_hours || 0}</div>
+                                        <div className="text-xl font-bold">{stats.hours}</div>
                                     </div>
                                     <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/20">
                                         <div className="flex items-center gap-2 text-orange-400 mb-1">
                                             <Users className="w-4 h-4" />
                                             <span className="text-[10px] font-bold uppercase">Participants</span>
                                         </div>
-                                        <div className="text-xl font-bold">{job.participants_count || 0}</div>
+                                        <div className="text-xl font-bold">{stats.participants}</div>
                                     </div>
                                 </div>
 
