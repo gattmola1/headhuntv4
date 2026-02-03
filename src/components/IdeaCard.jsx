@@ -1,7 +1,35 @@
+import { useState, useEffect } from 'react';
 import { ArrowRight, Lightbulb, MapPin, Clock, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { supabase } from '../supabaseClient';
 
 const IdeaCard = ({ idea, onApply }) => {
+    const [stats, setStats] = useState({
+        hours: idea.total_hours || 0,
+        participants: idea.participants_count || 0
+    });
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            if (!idea?.id) return;
+
+            // Parallel fetch for speed
+            const [hoursRes, countRes] = await Promise.all([
+                supabase.rpc('get_idea_total_hours', { target_idea_id: idea.id }),
+                supabase.rpc('get_idea_participant_count', { target_idea_id: idea.id })
+            ]);
+
+            if (hoursRes.data !== null && countRes.data !== null) {
+                setStats({
+                    hours: hoursRes.data,
+                    participants: countRes.data
+                });
+            }
+        };
+
+        fetchStats();
+    }, [idea?.id]);
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -28,12 +56,12 @@ const IdeaCard = ({ idea, onApply }) => {
             <div className="flex items-center gap-6 text-xs font-mono uppercase tracking-wider">
                 <div className="flex items-center gap-2 text-blue-400">
                     <Users className="w-4 h-4" />
-                    <span className="text-white font-bold">{idea.participants_count || 0}</span>
+                    <span className="text-white font-bold">{stats.participants}</span>
                     <span className="text-gray-500">Participants</span>
                 </div>
                 <div className="flex items-center gap-2 text-orange-400">
                     <Clock className="w-4 h-4" />
-                    <span className="text-white font-bold">{idea.total_hours || 0}</span>
+                    <span className="text-white font-bold">{stats.hours}</span>
                     <span className="text-gray-500">Hours Total</span>
                 </div>
             </div>

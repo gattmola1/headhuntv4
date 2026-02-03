@@ -1,11 +1,14 @@
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { getSupabaseClient } from '../_lib/supabase.js';
 
 export default async function handler(req, res) {
+    // Admin Only Route - Fail fast if no token
+    if (!req.headers.authorization && req.method === 'GET') {
+        return res.status(401).json({ error: 'Unauthorized: Missing token' });
+    }
+
+    // Initialize client with user's JWT
+    const supabase = getSupabaseClient(req);
     if (req.method === 'GET') {
         // Admin only
         const authHeader = req.headers.authorization;
@@ -35,11 +38,10 @@ export default async function handler(req, res) {
 
             const { data, error } = await supabase
                 .from('leads')
-                .insert([{ recruiter_id, candidate_name, candidate_email, candidate_phone, preferred_windows }])
-                .select();
+                .insert([{ recruiter_id, candidate_name, candidate_email, candidate_phone, preferred_windows }]);
 
             if (error) throw error;
-            res.status(201).json({ lead: data[0] });
+            res.status(201).json({ message: "Lead created" });
         } catch (error) {
             console.error('Error creating lead:', error);
             res.status(500).json({ error: error.message });

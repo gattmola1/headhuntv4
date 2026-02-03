@@ -86,7 +86,7 @@ const Match = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {ideas.map(idea => (
-                            <IdeaCard key={idea.id} idea={idea} onApply={setSelectedIdea} />
+                            <IdeaCard key={`${idea.id}-${idea.updated_at}`} idea={idea} onApply={setSelectedIdea} />
                         ))}
                         {ideas.length === 0 && (
                             <div className="col-span-full text-center py-20 text-gray-500 border border-white/5 rounded-xl bg-white/5">
