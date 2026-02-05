@@ -50,7 +50,7 @@ const Jobs = () => {
                     transition={{ delay: 0.2 }}
                     className="flex justify-center gap-4"
                 >
-                    <a href="https://discord.gg/example" className="px-8 py-3 rounded-full bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold transition-all">
+                    <a href="https://discord.gg/NwQH763Gp" className="px-8 py-3 rounded-full bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold transition-all">
                         Join our Discord
                     </a>
                     <Link to="/employers" className="px-8 py-3 rounded-full bg-white text-black font-bold hover:bg-gray-100 transition-all">

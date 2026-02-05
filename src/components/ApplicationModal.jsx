@@ -260,7 +260,7 @@ const ApplicationModal = ({ job, isOpen, onClose, onSuccess }) => {
                             </div>
                             <div className="flex flex-col gap-3 w-full max-w-xs pt-4">
                                 <a
-                                    href="https://discord.gg/example"
+                                    href="https://discord.gg/NwQH763Gp"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-full py-3 bg-[#5865F2] hover:bg-[#4752C4] text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2"

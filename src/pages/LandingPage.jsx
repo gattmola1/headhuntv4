@@ -218,7 +218,7 @@ const LandingPage = () => {
                     className="flex flex-col sm:flex-row justify-center gap-4 pt-4"
                 >
                     <a
-                        href="https://discord.gg/example"
+                        href="https://discord.gg/NwQH763Gp"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-12 py-5 rounded-2xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-black transition-all text-xl shadow-2xl shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-3"
@@ -290,15 +290,15 @@ const LandingPage = () => {
                             </div>
                             <div className="pt-2">
                                 <a
-                                    href="/sample_rsa.pdf"
+                                    href="/network_partner_revenue_share_agreement.pdf"
                                     download
                                     className="w-full py-4 bg-white text-black rounded-xl font-black text-sm flex items-center justify-center gap-3 hover:bg-gray-200 transition-all active:scale-95 shadow-xl shadow-white/5 uppercase tracking-widest"
                                 >
                                     <Download size={18} />
-                                    DOWNLOAD SAMPLE RSA
+                                    DOWNLOAD REVENUE SHARE AGREEMENT
                                 </a>
                                 <p className="text-[10px] text-center text-gray-600 mt-4 leading-relaxed uppercase tracking-widest font-mono">
-                                    Revenue Share Agreement Template v2.4
+                                    Revenue Share Agreement
                                 </p>
                             </div>
                         </div>

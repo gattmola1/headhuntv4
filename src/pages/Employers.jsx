@@ -102,12 +102,12 @@ const Employers = () => {
                         </a>
 
                         <a
-                            href="/sample_csa.pdf"
+                            href="/master_client_service_agreement.pdf"
                             download
                             className="group flex items-center gap-3 bg-black border border-white/20 px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-colors"
                         >
                             <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
-                            <span>Download CSA Sample</span>
+                            <span>Download Client Service Agreement</span>
                         </a>
                     </div>
                     <p className="mt-6 text-sm text-gray-400">
@@ -205,15 +205,15 @@ const Employers = () => {
                             </div>
                             <div className="pt-2">
                                 <a
-                                    href="/sample_rsa.pdf"
+                                    href="/network_partner_revenue_share_agreement.pdf"
                                     download
                                     className="w-full py-4 bg-white text-black rounded-xl font-black text-sm flex items-center justify-center gap-3 hover:bg-gray-200 transition-all active:scale-95 shadow-xl shadow-white/5 uppercase tracking-widest"
                                 >
                                     <Download size={18} />
-                                    DOWNLOAD SAMPLE RSA
+                                    DOWNLOAD REVENUE SHARE AGREEMENT
                                 </a>
                                 <p className="text-[10px] text-center text-gray-600 mt-4 leading-relaxed uppercase tracking-widest font-mono">
-                                    Revenue Share Agreement Template v2.4
+                                    Revenue Share Agreement
                                 </p>
                             </div>
                         </div>
