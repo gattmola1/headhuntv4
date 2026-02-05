@@ -94,11 +94,11 @@ const Employers = () => {
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                         <a
-                            href="tel:+15550123456"
+                            href="tel:+12029999688"
                             className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-blue-50 transition-colors"
                         >
                             <Phone className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                            <span>+1 (555) 012-3456</span>
+                            <span>+1 (202) 999-9688</span>
                         </a>
 
                         <a
